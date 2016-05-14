@@ -1,7 +1,5 @@
 source 'https://rubygems.org'
 
-gem 'mma'
-
 gem 'unicorn'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
