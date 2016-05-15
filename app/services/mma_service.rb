@@ -6,7 +6,7 @@ class MMAService
     sherdog_links = google_search(fighter).css('.g .r a').select do |link|
       link.to_s.include? SHERDOG_URL
     end
-    if sherdog_links
+    if sherdog_links != []
       first_link = sherdog_links.first.attribute('href').to_s
       first_link_endtrim = first_link.partition('&').first
       fir_link_trimmed = first_link_endtrim[first_link_endtrim.index(SHERDOG_URL)..-1]
