@@ -11,16 +11,14 @@ class MMAService
       first_link_endtrim = first_link.partition('&').first
       fir_link_trimmed = first_link_endtrim[first_link_endtrim.index(SHERDOG_URL)..-1]
     else
-      "Fighter not found"
+      "Google search returned no Sherdog links."
     end
   end
 
   def self.fighter_query(fighter)
     sherdog_page = sherdog_page(fighter)
 
-    if sherdog_page == "Fighter not found"
-      return "Fighter not found"
-    end
+    return sherdog_page if sherdog_page == "Google search returned no Sherdog links."
 
     fighter_hash = fighter_template
 
@@ -81,7 +79,7 @@ class MMAService
   end
 
   def self.sherdog_page(fighter)
-    if sherdog_link(fighter) != "Fighter not found"
+    if sherdog_link(fighter) != "Google search returned no Sherdog links."
       url_text = Net::HTTP.get(URI.parse(sherdog_link(fighter)))
       return Nokogiri::HTML(url_text)
     else
