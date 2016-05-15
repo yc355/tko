@@ -74,14 +74,22 @@ class MMAService
   end
 
   def self.google_search(fighter)
-    url_text = Net::HTTP.get(URI.parse(GOOGLE_URL + google_query(fighter)))
-    Nokogiri::HTML(url_text)
+    url = URI.parse(GOOGLE_URL + google_query(fighter))
+    req = Net::HTTP::Get.new(url.to_s)
+    res = Net::HTTP.start(url.host, url.port) {|http|
+      http.request(req)
+    }
+    Nokogiri::HTML(res.body)
   end
 
   def self.sherdog_page(fighter)
     if sherdog_link(fighter) != "Google search returned no Sherdog links."
-      url_text = Net::HTTP.get(URI.parse(sherdog_link(fighter)))
-      return Nokogiri::HTML(url_text)
+      url = URI.parse(sherdog_link(fighter))
+      req = Net::HTTP::Get.new(url.to_s)
+      res = Net::HTTP.start(url.host, url.port) {|http|
+        http.request(req)
+      }
+      return Nokogiri::HTML(res.body)
     else
       return sherdog_link(fighter)
     end
