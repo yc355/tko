@@ -92,12 +92,11 @@ class MMAService
         elsif method.split[0].to_s.include? "DQ"
           fight[:method] = "DQ"
         else
-          fight[:method] = method.split[0]
+          fight[:method] = method.include?('(') ? method.split[0] :
+            row.css('td:nth-child(4)').children[0] ? row.css('td:nth-child(4)').children[0].text : ''
         end
         if method[/\(.*?\)/]
           fight[:method_details] = method[/\(.*?\)/][1..-2]
-        else
-          fight[:method] = row.css('td:nth-child(4)').children[0].text
         end
 
         fight[:round] = row.css('td:nth-child(5)').text
