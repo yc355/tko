@@ -89,11 +89,15 @@ class MMAService
         method = row.css('td:nth-child(4)').text
         if method.split[0].to_s.include? "Draw"
           fight[:method] = "Draw"
+        elsif method.split[0].to_s.include? "DQ"
+          fight[:method] = "DQ"
         else
           fight[:method] = method.split[0]
         end
         if method[/\(.*?\)/]
           fight[:method_details] = method[/\(.*?\)/][1..-2]
+        else
+          fight[:method] = row.css('td:nth-child(4)').children[0].text
         end
 
         fight[:round] = row.css('td:nth-child(5)').text
